@@ -220,3 +220,45 @@
     <script src="main.js"></script>
 </body>
 </html>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6qmmhOqGJSZa_G43whWRcxy29woSrIsM",
+    authDomain: "dra-safa-citas.firebaseapp.com",
+    projectId: "dra-safa-citas",
+    storageBucket: "dra-safa-citas.firebasestorage.app",
+    messagingSenderId: "961518160939",
+    appId: "1:961518160939:web:36eb4f7896509c3362ee6e",
+    measurementId: "G-Z5SJ1YK0DL"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const formulario = document.querySelector("form"); 
+  
+  formulario.addEventListener("submit", async (e) => {
+    e.preventDefault(); 
+
+    const nombre = document.getElementById("nombre").value;
+    const telefono = document.getElementById("telefono").value;
+    const motivo = document.getElementById("motivo").value;
+
+    try {
+      await addDoc(collection(db, "citas"), {
+        nombrePaciente: nombre,
+        telefonoPaciente: telefono,
+        motivoConsulta: motivo,
+        fechaSolicitud: new Date()
+      });
+      alert("¡Cita solicitada correctamente! La doctora se pondrá en contacto.");
+      formulario.reset(); 
+    } catch (error) {
+      console.error("Error guardando el documento: ", error);
+      alert("Hubo un error. Por favor, inténtalo de nuevo.");
+    }
+  });
+</script>
+```"
